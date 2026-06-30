@@ -3,14 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "imports": {
+    "#/*": ["./src/*"]
+  },
   "scripts": {
-    "dev": "tsx watch --include src/docs/swagger.yml src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "start": "node build/server.js"
   },
   "author": "Mateus de Castro Macedo",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "@biomejs/biome": "2.5.1"
+    "@biomejs/biome": "2.5.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.0.1",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
