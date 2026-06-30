@@ -1,0 +1,86 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
+
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineWidth": 80
+	},
+
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"useValidLang": "warn",
+				"useSemanticElements": "warn"
+			},
+			"nursery": {
+				"useSortedClasses": "off",
+				"noFloatingPromises": "warn"
+			},
+			"suspicious": {
+				"noConsole": "warn",
+				"noExplicitAny": "warn",
+				"noCommentText": "warn",
+				"noUnknownAtRules": "warn",
+				"noArrayIndexKey": "warn",
+				"noDoubleEquals": "warn"
+			},
+			"complexity": {
+				"noUselessConstructor": "warn",
+				"noForEach": "warn",
+				"noUselessFragments": "warn",
+				"useLiteralKeys": "warn"
+			},
+			"security": {
+				"noBlankTarget": {
+					"fix": "safe",
+					"level": "warn",
+					"options": { "allowNoReferrer": true }
+				}
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "warn",
+				"useHookAtTopLevel": "warn",
+				"noNestedComponentDefinitions": "warn",
+				"noUnusedFunctionParameters": "warn",
+				"noUnusedImports": "warn",
+				"noUnusedVariables": "warn",
+				"noUnusedPrivateClassMembers": "warn",
+				"noUnknownPseudoClass": "warn",
+				"noUnknownTypeSelector": "warn"
+			},
+			"style": {
+				"useConsistentObjectDefinitions": "warn",
+				"useObjectSpread": "warn",
+				"useSelfClosingElements": "warn",
+				"useImportType": {
+					"level": "off"
+				}
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "asNeeded",
+			"arrowParentheses": "always",
+			"jsxQuoteStyle": "double",
+			"quoteProperties": "asNeeded",
+			"bracketSameLine": false,
+			"bracketSpacing": true,
+			"trailingCommas": "all"
+		},
+		"parse": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	}
+}

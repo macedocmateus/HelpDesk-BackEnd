@@ -1,0 +1,16 @@
+{
+  "name": "helpdesk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --include src/docs/swagger.yml src/server.ts",
+    "start": "node build/server.js"
+  },
+  "author": "Mateus de Castro Macedo",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "2.5.1"
+  }
+}
