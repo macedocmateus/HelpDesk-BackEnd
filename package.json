@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "imports": {
-    "#/*": ["./src/*"]
+    "#/*": [
+      "./src/*"
+    ]
   },
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch --env-file=.env src/server.ts",
     "start": "node build/server.js"
   },
   "author": "Mateus de Castro Macedo",
@@ -17,10 +19,16 @@
     "@biomejs/biome": "2.5.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.0.1",
+    "@types/pg": "^8.20.0",
+    "prisma": "^7.8.0",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "express": "^5.2.1",
+    "pg": "^8.22.0",
+    "zod": "^4.4.3"
   }
 }

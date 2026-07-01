@@ -22,7 +22,7 @@
 
     "types": ["node"],
     "paths": {
-      "@/*": ["./src/*"]
+      "#/*": ["./src/*"]
     },
 
     "strict": true,
