@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 const envSchema = z.object({
   DATABASE_URL: z.url(),
-  //JWT_SECRET: z.string(),
+  FRONTEND_URL: z.url(),
+  JWT_SECRET: z.string(),
   PORT: z.coerce.number().default(3333),
 })
 
