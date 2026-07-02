@@ -8,15 +8,15 @@ datasource db {
 }
 
 enum Role {
-  ADMIN
-  TECHNICIAN
-  CLIENT
+  admin
+  technician
+  customer
 }
 
 enum TicketStatus {
-  OPEN
-  IN_PROGRESS
-  CLOSED
+  open
+  in_progress
+  closed
 }
 
 model User {
@@ -24,11 +24,11 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(CLIENT)
+  role      Role     @default(customer)
   avatar    String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   technicianProfile   TechnicianProfile?
   ticketsAsClient     Ticket[]           @relation("ClientTickets")
@@ -39,10 +39,10 @@ model User {
 
 model TechnicianProfile {
   id             String   @id @default(uuid(7))
-  userId         String   @unique
-  availableHours String[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  userId         String   @unique @map("user_id")
+  availableHours String[] @map("available_hours")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -53,9 +53,9 @@ model Service {
   id        String   @id @default(uuid(7))
   name      String
   price     Decimal  @db.Decimal(10, 2)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   ticketServices TicketService[]
 
@@ -64,11 +64,11 @@ model Service {
 
 model Ticket {
   id           String       @id @default(uuid(7))
-  status       TicketStatus @default(OPEN)
-  clientId     String
-  technicianId String
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  status       TicketStatus @default(open)
+  clientId     String       @map("client_id")
+  technicianId String       @map("technician_id")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
 
   client         User            @relation("ClientTickets", fields: [clientId], references: [id], onDelete: Cascade)
   technician     User            @relation("TechnicianTickets", fields: [technicianId], references: [id])
@@ -79,13 +79,13 @@ model Ticket {
 
 model TicketService {
   id        String   @id @default(uuid(7))
-  ticketId  String
-  serviceId String
+  ticketId  String   @map("ticket_id")
+  serviceId String   @map("service_id")
   price     Decimal  @db.Decimal(10, 2)
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
   ticket  Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   service Service @relation(fields: [serviceId], references: [id])
 
-  @@map("ticketservice")
+  @@map("ticket_service")
 }
