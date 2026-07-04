@@ -1,8 +1,8 @@
-import express from 'express'
-import { errorHandling } from './middlewares/error-handling.js'
 import cors from 'cors'
-import { routes } from './routes/index.js'
+import express from 'express'
 import { env } from '#/env.js'
+import { errorHandling } from './middlewares/error-handling.js'
+import { routes } from './routes/index.js'
 
 const app = express()
 

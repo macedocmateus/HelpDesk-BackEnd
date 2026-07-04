@@ -43,7 +43,7 @@ class AdminsController {
 
     return response.status(200).json(listedAdmins)
   }
-  
+
   async update(request: Request, response: Response) {
     const paramsSchema = z.object({
       id: z.uuid(),
@@ -99,7 +99,7 @@ class AdminsController {
     }
 
     await prisma.user.delete({
-      where: { id }
+      where: { id },
     })
 
     return response.status(204).send()
