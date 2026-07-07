@@ -1,8 +1,14 @@
-declare namespace Express {
-  export interface Request {
-    user?: {
-      id: string
-      role: string
+import { Role } from "#/generated/prisma/enums.ts"
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        id: string
+        role: Role
+      }
     }
   }
 }
+
+export {}

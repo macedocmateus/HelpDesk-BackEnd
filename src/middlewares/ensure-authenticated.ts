@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { authConfig } from '#/configs/auth.js'
 import { AppError } from '#/utils/AppError.js'
+import { Role } from '#/generated/prisma/enums.js'
 
 interface TokenPayload {
-  role: string
+  role: Role
   sub: string
 }
 
