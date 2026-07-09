@@ -4,6 +4,9 @@ import { z } from 'zod'
 import { prisma } from '#/lib/prisma.js'
 import { AppError } from '#/utils/AppError.js'
 import { DEFAULT_AVAILABLE_HOURS } from '#/utils/default-available-hours.js'
+import fs from 'node:fs'
+import path from 'node:path'
+import { UPLOADS_FOLDER } from '#/lib/multer.js'
 
 class TechniciansController {
   async create(request: Request, response: Response) {
@@ -102,6 +105,10 @@ class TechniciansController {
     const { id } = paramsSchema.parse(request.params)
     const { password } = bodySchema.parse(request.body)
 
+    if (request.user?.role === 'technician' && request.user?.id !== id) {
+      throw new AppError('You can only change your own password', 403)
+    }
+    
     const technician = await prisma.user.findUnique({
       where: { id },
     })
@@ -163,6 +170,18 @@ class TechniciansController {
       throw new AppError('Technician not found')
     }
 
+    const oldAvatarUrl = technician.avatar
+    
+    if (oldAvatarUrl) {
+      const oldFileName = oldAvatarUrl.split('/').pop() ?? ''
+
+      const oldFilePath = path.join(UPLOADS_FOLDER, oldFileName)
+
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath)
+      }
+    }
+    
     const avatarFile = request.file
 
     if (!avatarFile) {

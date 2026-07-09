@@ -4,5 +4,6 @@ CLAUDE.md
 src/generated/prisma
 dist
 build
+uploads
 
 /generated/prisma

@@ -3,7 +3,7 @@ import path from 'node:path'
 import multer from 'multer'
 
 // pasta onde as imagens serão salvas — resolve o caminho a partir da raiz do projeto
-const UPLOADS_FOLDER = path.resolve('uploads')
+export const UPLOADS_FOLDER = path.resolve('uploads')
 
 export const upload = multer({
   storage: multer.diskStorage({
