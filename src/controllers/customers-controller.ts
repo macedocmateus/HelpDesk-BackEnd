@@ -3,6 +3,9 @@ import { Request, Response } from 'express'
 import { z } from 'zod'
 import { prisma } from '#/lib/prisma.js'
 import { AppError } from '#/utils/AppError.js'
+import path from 'node:path'
+import fs from 'node:fs'
+import { UPLOADS_FOLDER } from '#/lib/multer.js'
 
 class CustomersController {
   async create(request: Request, response: Response) {
@@ -115,6 +118,49 @@ class CustomersController {
     })
 
     response.status(204).send()
+  }
+
+  async updateAvatar(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.uuid(),
+    })
+
+    const { id } = paramsSchema.parse(request.params)
+
+    const customer = await prisma.user.findUnique({
+      where: { id },
+    })
+
+    if (!customer) {
+      throw new AppError('Customer not found')
+    }
+
+    const oldAvatarUrl = customer.avatar
+
+    if (oldAvatarUrl) {
+      const oldFileName = oldAvatarUrl.split('/').pop() ?? ''
+
+      const oldFilePath = path.join(UPLOADS_FOLDER, oldFileName)
+
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath)
+      }
+    }
+
+    const avatarFile = request.file
+
+    if (!avatarFile) {
+      throw new AppError('Avatar file is required')
+    }
+
+    const avatarUrl = `${request.protocol}://${request.get('host')}/uploads/${avatarFile.filename}`
+
+    await prisma.user.update({
+      where: { id },
+      data: { avatar: avatarUrl },
+    })
+
+    return response.status(200).json({ avatarUrl })
   }
 }
 

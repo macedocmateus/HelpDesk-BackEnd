@@ -4,7 +4,7 @@ import { upload } from '#/lib/multer.js'
 
 import { ensureAuthenticated } from '#/middlewares/ensure-authenticated.js'
 import { verifyUserAuthorization } from '#/middlewares/verifyUserAuthorization.js'
-import { ensureTechnicianIsOwner } from '#/middlewares/ensure-technician-is-owner.js'
+import { ensureOwnsAvatar } from '#/middlewares/ensure-owns-avatar.js'
 
 const techniciansRoutes = Router()
 const techniciansController = new TechniciansController()
@@ -19,7 +19,7 @@ techniciansRoutes.patch(
 )
 techniciansRoutes.patch(
   '/:id/avatar',
-  ensureAuthenticated, verifyUserAuthorization(['technician']), ensureTechnicianIsOwner ,upload.single('avatar'), techniciansController.updateAvatar,
+  ensureAuthenticated, verifyUserAuthorization(['technician']), ensureOwnsAvatar ,upload.single('avatar'), techniciansController.updateAvatar,
 )
 
 export { techniciansRoutes }
