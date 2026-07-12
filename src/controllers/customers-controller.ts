@@ -1,11 +1,11 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { hash } from 'bcrypt'
 import { Request, Response } from 'express'
 import { z } from 'zod'
+import { UPLOADS_FOLDER } from '#/lib/multer.js'
 import { prisma } from '#/lib/prisma.js'
 import { AppError } from '#/utils/AppError.js'
-import path from 'node:path'
-import fs from 'node:fs'
-import { UPLOADS_FOLDER } from '#/lib/multer.js'
 
 class CustomersController {
   async create(request: Request, response: Response) {
@@ -17,7 +17,9 @@ class CustomersController {
 
     const { name, email, password } = bodySchema.parse(request.body)
 
-    const customerWithSameEmail = await prisma.user.findFirst({ where: { email } })
+    const customerWithSameEmail = await prisma.user.findFirst({
+      where: { email },
+    })
 
     if (customerWithSameEmail) {
       throw new AppError('Customer with same email already exists')
@@ -49,13 +51,13 @@ class CustomersController {
 
   async update(request: Request, response: Response) {
     const paramsSchema = z.object({
-      id: z.uuid()
+      id: z.uuid(),
     })
 
     const bodySchema = z.object({
       name: z.string().min(3).optional(),
       email: z.email().optional(),
-      password: z.string().min(6).optional()
+      password: z.string().min(6).optional(),
     })
 
     const { id } = paramsSchema.parse(request.params)
@@ -66,7 +68,7 @@ class CustomersController {
     }
 
     const customer = await prisma.user.findUnique({
-      where: { id }
+      where: { id },
     })
 
     if (!customer) {
@@ -75,7 +77,7 @@ class CustomersController {
 
     if (email) {
       const customerWithSameEmail = await prisma.user.findFirst({
-        where: { email, NOT: {id} }
+        where: { email, NOT: { id } },
       })
 
       if (customerWithSameEmail) {
@@ -96,7 +98,7 @@ class CustomersController {
 
   async remove(request: Request, response: Response) {
     const paramsSchema = z.object({
-      id: z.uuid()
+      id: z.uuid(),
     })
 
     const { id } = paramsSchema.parse(request.params)
@@ -106,7 +108,7 @@ class CustomersController {
     }
 
     const customer = await prisma.user.findUnique({
-      where: { id }
+      where: { id },
     })
 
     if (!customer) {
@@ -114,7 +116,7 @@ class CustomersController {
     }
 
     await prisma.user.delete({
-      where: {id}
+      where: { id },
     })
 
     response.status(204).send()

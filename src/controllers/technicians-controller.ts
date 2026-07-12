@@ -1,12 +1,12 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { hash } from 'bcrypt'
 import { Request, Response } from 'express'
 import { z } from 'zod'
+import { UPLOADS_FOLDER } from '#/lib/multer.js'
 import { prisma } from '#/lib/prisma.js'
 import { AppError } from '#/utils/AppError.js'
 import { DEFAULT_AVAILABLE_HOURS } from '#/utils/default-available-hours.js'
-import fs from 'node:fs'
-import path from 'node:path'
-import { UPLOADS_FOLDER } from '#/lib/multer.js'
 
 class TechniciansController {
   async create(request: Request, response: Response) {
@@ -108,7 +108,7 @@ class TechniciansController {
     if (request.user?.role === 'technician' && request.user?.id !== id) {
       throw new AppError('You can only change your own password', 403)
     }
-    
+
     const technician = await prisma.user.findUnique({
       where: { id },
     })
@@ -171,7 +171,7 @@ class TechniciansController {
     }
 
     const oldAvatarUrl = technician.avatar
-    
+
     if (oldAvatarUrl) {
       const oldFileName = oldAvatarUrl.split('/').pop() ?? ''
 
@@ -181,7 +181,7 @@ class TechniciansController {
         fs.unlinkSync(oldFilePath)
       }
     }
-    
+
     const avatarFile = request.file
 
     if (!avatarFile) {
