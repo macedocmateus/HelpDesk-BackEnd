@@ -13,5 +13,17 @@ ticketsRoutes.post(
   ticketsController.create,
 )
 ticketsRoutes.get('/', ensureAuthenticated, ticketsController.index)
+ticketsRoutes.patch(
+  '/:id/services',
+  ensureAuthenticated,
+  verifyUserAuthorization(['technician']),
+  ticketsController.addServices,
+)
+ticketsRoutes.patch(
+  '/:id/status',
+  ensureAuthenticated,
+  verifyUserAuthorization(['technician', 'admin']),
+  ticketsController.updateStatus,
+)
 
 export { ticketsRoutes }
