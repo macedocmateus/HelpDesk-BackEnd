@@ -1,5 +1,6 @@
 node_modules
 .env
+.env.test
 CLAUDE.md
 src/generated/prisma
 dist
